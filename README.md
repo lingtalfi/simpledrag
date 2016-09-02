@@ -13,6 +13,7 @@ Features
 - one liner
 - onDrag and onStop callbacks
 - compatible with all modern browsers (as long as they can handle the addEventListener function)
+- handle SVG elements dragging (since v2.0.0)
 
 
 
@@ -101,6 +102,59 @@ Both callbacks have one argument: the currentTarget element (#my_target in the e
 
 
 
+SVG element dragging example
+--------------------------------
+
+The left and top css properties doesn't seem to affect the svg elements.
+But using the onDrag callback, you can move svg elements, like so:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Html page</title>
+    <script src="simpledrag.js"></script>
+    <style>
+        body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #eee;
+        }
+        #circle1{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<svg width="100%" height="100%">
+
+    <circle id="circle1" cx="100" cy="100" r="5"
+            fill="red"
+            stroke="red"
+            stroke-width="2"
+    ></circle>
+</svg>
+
+
+<script type="text/javascript">
+    var circle1 = document.getElementById('circle1');
+    circle1.sdrag(function(el, pageX, startX, pageY, startY){
+        el.setAttribute('cx', pageX);
+        el.setAttribute('cy', pageY);
+    });
+</script>
+</body>
+</html>
+```
+
+
+
+
 
 Author note
 ---------------
@@ -115,9 +169,14 @@ Anyway, it's also easy to import the 40 lines of code in your javascript source 
 the simple drag functionality.
 
 
+
 Version history
 --------------------
 
+
+- 2.0.0 - 2016-09-02
+
+    Added SVGElement support arguments (tested in firefox 48 and chrome 53).
 
 - 1.0.1 - 2016-09-02
 

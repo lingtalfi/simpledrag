@@ -11,9 +11,16 @@
      * document.getElementById('my_target').sdrag(null, onStop);
      * document.getElementById('my_target').sdrag(onDrag, onStop);
      *
-     * Both onDrag and onStop callback take the currentTarget element (#my_target in the
-     * above examples) as their first argument.
+     * Both onDrag and onStop callback take the following arguments:
      *
+     * - el, the currentTarget element (#my_target in the above examples)
+     * - pageX: the mouse event's pageX property (horizontal position of the mouse compared to the viewport)
+     * - startX: the distance from the element's left property to the horizontal mouse position in the viewport.
+     *                  Usually, you don't need to use that property; it is internally used to fix the undesirable
+     *                  offset that naturally occurs when you don't drag the element by its top left corner
+     *                  (for instance if you drag the element from its middle).
+     * - pageY: the mouse event's pageX property (horizontal position of the mouse compared to the viewport)
+     * - startY: same as startX, but for the vertical axis (and element's top property)
      *
      */
 
@@ -27,7 +34,7 @@
         function move(e) {
             el.style.left = (e.pageX - startX ) + 'px';
             el.style.top = (e.pageY - startY ) + 'px';
-            onDrag && onDrag(el);
+            onDrag && onDrag(el, e.pageX, startX, e.pageY, startY);
         }
 
         function startDragging(e) {
@@ -45,13 +52,14 @@
         }
 
         this.addEventListener('mousedown', startDragging);
-        window.addEventListener('mouseup', function () {
+        window.addEventListener('mouseup', function (e) {
             if (true === dragging) {
                 dragging = false;
                 window.removeEventListener('mousemove', move);
-                onStop && onStop(el);
+                onStop && onStop(el, e.pageX, startX, e.pageY, startY);
             }
         });
     }
-    HTMLElement.prototype.sdrag = sdrag;
+
+    Element.prototype.sdrag = sdrag;
 })();
