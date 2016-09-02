@@ -31,8 +31,7 @@
         }
 
         function startDragging(e) {
-            // only HTMLElement have offsetLeft/offsetTop
-            if (e.currentTarget instanceof HTMLElement) {
+            if (e.currentTarget instanceof HTMLElement || e.currentTarget instanceof SVGElement) {
                 dragging = true;
                 var left = el.style.left ? parseInt(el.style.left) : 0;
                 var top = el.style.top ? parseInt(el.style.top) : 0;

@@ -119,7 +119,11 @@ Version history
 --------------------
 
 
-- 1.0 - 2016-09-02
+- 1.0.1 - 2016-09-02
+
+    Added SVGElement support (tested in firefox 48 and chrome 53).
+
+- 1.0.0 - 2016-09-02
 
     Initial commit
 
