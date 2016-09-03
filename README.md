@@ -162,7 +162,7 @@ Author note
 I was about to use the drag and drop api, but I realized that I just needed a simple drag function,
 and the api seemed to have compatibility problems on mobile devices, and too complicated compared to my needs.
 
-Also note that the sdrag function is attached directly on the HTMLElement prototype.
+Also note that the sdrag function is attached directly on the Element prototype.
 Some people consider this as a bad practice and I generally don't use it, but I think the one liner's feature is worth it.
 
 Anyway, it's also easy to import the 40 lines of code in your javascript source if you don't want that, but still want to use
