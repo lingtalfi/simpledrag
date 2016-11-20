@@ -20,7 +20,8 @@ Features
 How to use?
 ---------------
 
-Simple use (don't forget to include the simpledrag.js file in your head)
+Simple use (don't forget to include the simpledrag.js file in your head),
+and, the target must be in a non static position (for instance position: relative)
 
 ```html
 <!DOCTYPE html>
