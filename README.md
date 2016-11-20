@@ -154,6 +154,43 @@ But using the onDrag callback, you can move svg elements, like so:
 
 
 
+Make it horizontal only or vertical only
+------------------------------
+
+To constrain the drag to only one direction (horizontal for instance),
+update the source code:
+find the move function and comment the line which updates the top css property.
+
+So, in other words, replace this:
+
+```js
+function move(e) {
+    el.style.left = (e.pageX - startX ) + 'px';
+    el.style.top = (e.pageY - startY ) + 'px';
+    onDrag && onDrag(el, e.pageX, startX, e.pageY, startY);
+}
+```
+
+By this 
+
+
+```js
+function move(e) {
+    el.style.left = (e.pageX - startX ) + 'px';
+    // el.style.top = (e.pageY - startY ) + 'px';
+    onDrag && onDrag(el, e.pageX, startX, e.pageY, startY);
+}
+```
+
+
+I assume you will know how to make it vertical only as well.
+
+
+
+
+
+
+
 
 
 Author note
