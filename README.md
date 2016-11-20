@@ -13,7 +13,9 @@ Features
 - one liner
 - onDrag and onStop callbacks
 - compatible with all modern browsers (as long as they can handle the addEventListener function)
-- handle SVG elements dragging (since v2.0.0)
+- handle SVG elements dragging 
+- can constrain the movement horizontally or vertically
+- can constrain the movement inside of a virtual box with little effort
 
 
 
