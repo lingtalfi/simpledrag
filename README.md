@@ -263,6 +263,7 @@ The sdrag code is pushed to a good amount of complexity.
 To be honest, I found the code by accident, so be sure to check if it works in your browser first (I checked that it worked successfully in firefox 50, chrome 54 and safari 10.0.1).
 
 
+http://codepen.io/lingtalfi/pen/zoNeJp
 
 
 
