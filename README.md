@@ -158,36 +158,93 @@ But using the onDrag callback, you can move svg elements, like so:
 Make it horizontal only or vertical only
 ------------------------------
 
-To constrain the drag to only one direction (horizontal for instance),
-update the source code:
-find the move function and comment the line which updates the top css property.
-
-So, in other words, replace this:
-
 ```js
-function move(e) {
-    el.style.left = (e.pageX - startX ) + 'px';
-    el.style.top = (e.pageY - startY ) + 'px';
-    onDrag && onDrag(el, e.pageX, startX, e.pageY, startY);
-}
-```
-
-By this 
-
-
-```js
-function move(e) {
-    el.style.left = (e.pageX - startX ) + 'px';
-    // el.style.top = (e.pageY - startY ) + 'px';
-    onDrag && onDrag(el, e.pageX, startX, e.pageY, startY);
-}
+document.getElementById('target1').sdrag(null, null, 'horizontal'); // the #target1 will move horizontally only
+document.getElementById('target2').sdrag(null, null, 'vertical'); // the #target2 will move vertically only
 ```
 
 
-I assume you will know how to make it vertical only as well.
+
+
+Additional constraints on the movement
+--------------------------------------------
+
+Another common problem that we have when dealing with dragging is: how far can the target be dragged?
+
+You can use the **fix** argument of the onDrag callback.
+
+Fix is basically an array that let you override the value of the dragged target.
+
+
+The following example displays an horizontal green bar with a red cursor in the middle.
+You can drag the cursor horizontally only, from 10% of the screen width, and up to 90% of the screen width.
 
 
 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="simpledrag.js"></script>
+
+    <style type="text/css">
+
+        .line{
+            background: green;
+            width: 100%;
+            height: 100px;
+        }
+
+        .cursor{
+            background: red;
+            width: 2%;
+            height: 100px;
+            position: relative;
+            margin: 0 auto;
+            /**
+            * Note: Although it's tempting to set the left property,
+            * don't do it, as the current version of sdrag will not handle it as you would expect (a jumpy cursor)
+            */
+
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="line">
+    <div class="cursor" id="cursor"></div>
+</div>
+
+
+<script>
+
+
+    // The script below constrains the target to move horizontally between a left and a right virtual boundaries.
+    // - the left limit is positioned at 10% of the screen width
+    // - the right limit is positioned at 90% of the screen width
+    var leftLimit = 10;
+    var rightLimit = 90;
+
+    document.getElementById('cursor').sdrag(function (el, pageX, startX, pageY, startY, fix) {
+        if (pageX < window.innerWidth * leftLimit / 100) {
+            fix.pageX = window.innerWidth * leftLimit / 100;
+        }
+        if (pageX > window.innerWidth * rightLimit / 100) {
+            fix.pageX = window.innerWidth * rightLimit / 100;
+        }
+    }, null, 'horizontal');
+
+
+</script>
+
+</body>
+</html>
+```
 
 
 
@@ -210,6 +267,12 @@ the simple drag functionality.
 
 Version history
 --------------------
+
+
+- 2.1.0 - 2016-11-20
+
+    - Added direction argument to constrain movement horizontally or vertically
+    - Added fix option to the onDrag callback
 
 
 - 2.0.0 - 2016-09-02
