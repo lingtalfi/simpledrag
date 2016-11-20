@@ -250,6 +250,146 @@ You can drag the cursor horizontally only, from 10% of the screen width, and up 
 
 
 
+Making the phpMyAdmin's resize pane style
+-----------------------------------------
+
+
+The following code is a prototype of the resize pane widget that we have in phpMyAdmin.
+
+It uses flexbox.
+
+The sdrag code is pushed to a good amount of complexity.
+
+To be honest, I found the code by accident, so be sure to check if it works in your browser first (I checked that it worked successfully in firefox 50, chrome 54 and safari 10.0.1).
+
+
+
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="simpledrag.js"></script>
+
+    <style type="text/css">
+
+        html, body {
+            height: 100%;
+        }
+
+        .panes-container {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .left-pane {
+            width: 18%;
+            background: #ccc;
+        }
+
+        .panes-separator {
+            width: 2%;
+            background: red;
+            position: relative;
+            cursor: col-resize;
+        }
+
+        .right-pane {
+            flex: auto;
+            background: #eee;
+        }
+
+        .panes-container,
+        .panes-separator,
+        .left-pane,
+        .right-pane {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="panes-container">
+    <div class="left-pane" id="left-pane">
+        <p>I'm the left pane</p>
+        <ul>
+            <li><a href="#">Item 1</a></li>
+            <li><a href="#">Item 2</a></li>
+            <li><a href="#">Item 3</a></li>
+        </ul>
+    </div>
+    <div class="panes-separator" id="panes-separator"></div>
+    <div class="right-pane" id="right-pane">
+        <p>And I'm the right pane</p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium at cum cupiditate dolorum, eius eum
+            eveniet facilis illum maiores molestiae necessitatibus optio possimus sequi sunt, vel voluptate. Asperiores,
+            voluptate!
+        </p>
+    </div>
+</div>
+
+
+<script>
+
+
+    var leftPane = document.getElementById('left-pane');
+    var rightPane = document.getElementById('right-pane');
+    var paneSep = document.getElementById('panes-separator');
+
+    // The script below constrains the target to move horizontally between a left and a right virtual boundaries.
+    // - the left limit is positioned at 10% of the screen width
+    // - the right limit is positioned at 90% of the screen width
+    var leftLimit = 10;
+    var rightLimit = 90;
+
+
+    paneSep.sdrag(function (el, pageX, startX, pageY, startY, fix) {
+
+        fix.skipX = true;
+
+        if (pageX < window.innerWidth * leftLimit / 100) {
+            pageX = window.innerWidth * leftLimit / 100;
+            fix.pageX = pageX;
+        }
+        if (pageX > window.innerWidth * rightLimit / 100) {
+            pageX = window.innerWidth * rightLimit / 100;
+            fix.pageX = pageX;
+        }
+
+        var cur = pageX / window.innerWidth * 100;
+        if (cur < 0) {
+            cur = 0;
+        }
+        if (cur > window.innerWidth) {
+            cur = window.innerWidth;
+        }
+
+
+        var right = (100-cur-2);
+        leftPane.style.width = cur + '%';
+        rightPane.style.width = right + '%';
+
+    }, null, 'horizontal');
+
+
+</script>
+
+</body>
+</html>
+```
+
+
 
 
 
@@ -270,6 +410,10 @@ the simple drag functionality.
 Version history
 --------------------
 
+
+- 2.2.0 - 2016-11-20
+
+    - Added fix.skipX and fix.skipY keys
 
 - 2.1.0 - 2016-11-20
 

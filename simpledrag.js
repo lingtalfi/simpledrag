@@ -35,10 +35,19 @@
      * It can be used to constrain the movement of the target inside of a virtual rectangle area for instance.
      * Put a variable in the fix array to override it.
      * The possible keys are:
+     *
      * - pageX
      * - startX
      * - pageY
      * - startY
+     * - skipX
+     * - skipY
+     *
+     * skipX and skipY let you skip the updating of the target's left property.
+     * This might be required in some cases where the positioning of the target
+     * is automatically done by the means of other css properties.
+     *
+     * 
      *
      *
      *
@@ -74,14 +83,18 @@
                 if ('startX' in fix) {
                     startX = fix.startX;
                 }
-                el.style.left = (pageX - startX) + 'px';
+                if (false === ('skipX' in fix)) {
+                    el.style.left = (pageX - startX) + 'px';
+                }
             }
             if ('horizontal' !== direction) {
                 var pageY = ('pageY' in fix) ? fix.pageY : e.pageY;
                 if ('startY' in fix) {
                     startY = fix.startY;
                 }
-                el.style.top = (pageY - startY) + 'px';
+                if (false === ('skipY' in fix)) {
+                    el.style.top = (pageY - startY) + 'px';
+                }
             }
         }
 
