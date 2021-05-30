@@ -85,6 +85,7 @@
                 }
                 if (false === ('skipX' in fix)) {
                     el.style.left = (pageX - startX) + 'px';
+                    el.style.right = 'unset';
                 }
             }
             if ('horizontal' !== direction) {
@@ -94,6 +95,7 @@
                 }
                 if (false === ('skipY' in fix)) {
                     el.style.top = (pageY - startY) + 'px';
+                    el.style.bottom = 'unset';
                 }
             }
         }
@@ -101,8 +103,8 @@
         function startDragging(e) {
             if (e.currentTarget instanceof HTMLElement || e.currentTarget instanceof SVGElement) {
                 dragging = true;
-                var left = el.style.left ? parseInt(el.style.left) : 0;
-                var top = el.style.top ? parseInt(el.style.top) : 0;
+                var left = getComputedStyle(el).left ? parseInt(getComputedStyle(el).left) : 0;
+                var top = getComputedStyle(el).top ? parseInt(getComputedStyle(el).top) : 0;
                 startX = e.pageX - left;
                 startY = e.pageY - top;
                 window.addEventListener('mousemove', move);
